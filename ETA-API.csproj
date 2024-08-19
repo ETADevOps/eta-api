@@ -58,6 +58,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Update="Reports\GeneReports\virtual-silo-432705-s7-8719b932f840.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Update="Files\lab_file.txt">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>

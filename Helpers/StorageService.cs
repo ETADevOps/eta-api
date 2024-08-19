@@ -36,7 +36,7 @@ namespace ETA_API.Helpers
         public StorageService(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _googleCredential = GoogleCredential.FromFile(_configuration["GCPStorageAuthFile"]);
+            _googleCredential = GoogleCredential.FromFile($@"Reports/GeneReports/virtual-silo-432705-s7-8719b932f840.json");
         }
        
         public async Task<string> Post(string uri, Dictionary<string, string> parameters)
