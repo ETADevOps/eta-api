@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" UseFileCache="true" ReportInfo.Created="02/22/2023 22:59:12" ReportInfo.Modified="06/07/2024 02:27:42" ReportInfo.CreatorVersion="2021.2.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+    private void ManualBuildTable(object sender, EventArgs e)
+    {
+      // get the data source by its name
+      DataSourceBase rowData = Report.GetDataSource(&quot;genotype&quot;);
+      
+      // initialize it
+      rowData.Init();
+
+      // printing the table header
+      Table1.PrintRow(0);
+      Table1.PrintColumns();
+      
+      // printing the table header
+      Table1.PrintRow(1);
+      Table1.PrintColumns();
+
+      // loop through the data source rows
+      while (rowData.HasMoreRows)
+      {
+        // printing the table row 
+        Table1.PrintRow(2);
+        Table1.PrintColumns();
+
+        // select the next data row
+        rowData.Next();
+      }                 
+    }
+    private void ManualBuildTableIntro(object sender, EventArgs e)
+    {
+      // get the data source by its name
+      DataSourceBase rowData = Report.GetDataSource(&quot;intro&quot;);
+      
+      // initialize it
+      rowData.Init();
+
+      // printing the table header
+      Table4.PrintRow(0);
+      Table4.PrintColumns();
+
+      // loop through the data source rows
+      while (rowData.HasMoreRows)
+      {
+        // printing the table row 
+        Table4.PrintRow(1);
+        Table4.PrintColumns();
+
+        // select the next data row
+        rowData.Next();
+      }                 
+    } 
+  }
+}
+</ScriptText>
+  <Dictionary>
+    <BusinessObjectDataSource Name="genes" ReferenceName="genes" DataType="System.Int32" Enabled="true">
+      <Column Name="Gene" DataType="System.String"/>
+    </BusinessObjectDataSource>
+    <BusinessObjectDataSource Name="result" ReferenceName="result" DataType="System.Int32" Enabled="true">
+      <Column Name="Gene" DataType="System.String"/>
+    </BusinessObjectDataSource>
+    <BusinessObjectDataSource Name="intro" ReferenceName="intro" DataType="System.Int32" Enabled="true">
+      <Column Name="SubCategoryName" DataType="System.String"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" BottomMargin="0" Guides="359.1" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="718.2" Height="47.25" FirstRowStartsNewPage="true" KeepChild="true">
+      <TableObject Name="Table2" Top="5.67" Width="708.75" Height="37.8">
+        <TableColumn Name="Column5" Width="170.1" AutoSize="true"/>
+        <TableColumn Name="Column6" Width="538.65"/>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell13" Text="[genes.Category]" Padding="2, 1, 4, 1" VertAlign="Center" WordWrap="false" Font="Bahnschrift, 14pt, style=Bold" RowSpan="2"/>
+          <TableCell Name="Cell14" Border.Lines="Left, Bottom" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell18" WordWrap="false" Font="Arial, 10pt"/>
+          <TableCell Name="Cell19" Border.Lines="Left" Font="Arial, 10pt"/>
+        </TableRow>
+      </TableObject>
+    </PageHeaderBand>
+    <DataBand Name="Data6" Top="51.25" Width="718.2" Height="137.97">
+      <LineObject Name="Line5" Left="160.65" Top="26.46" Width="556.42" Border.Color="63, 87, 123" Diagonal="true"/>
+      <TableObject Name="Table4" Top="52.92" Width="716.31" Height="79.38" Border.Lines="Left, Right, Bottom" Border.LeftLine.Color="63, 87, 123" Border.RightLine.Color="63, 87, 123" Border.BottomLine.Color="63, 87, 123" RepeatHeaders="false" ManualBuildEvent="ManualBuildTableIntro">
+        <TableColumn Name="Column9" Width="196.56"/>
+        <TableColumn Name="Column10" Width="519.75"/>
+        <TableRow Name="Row8" Height="22.68">
+          <TableCell Name="Cell24" Fill.Color="228, 228, 236" Text="Report Name" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 9pt" TextFill.Color="78, 80, 86"/>
+          <TableCell Name="Cell25" Fill.Color="228, 228, 236" Text="Report Introduction" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 9pt" TextFill.Color="78, 80, 86"/>
+        </TableRow>
+        <TableRow Name="Row9" MinHeight="56.7" Height="56.7" AutoSize="true">
+          <TableCell Name="Cell28" Text="[intro.SubCategoryName]" Padding="8, 10, 2, 2" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+          <TableCell Name="Cell29" Text="[intro.SubCategoryIntroduction]" Padding="4, 10, 2, 2" VertAlign="Center" Font="Bahnschrift, 10pt" TextFill.Color="121, 122, 123"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text3784" Left="18.9" Top="18.9" Width="189" Height="20.79" Fill.Color="White" CanGrow="true" Text="Introductions" AutoWidth="true" Font="Bahnschrift, 12pt, style=Bold" TextFill.Color="107, 103, 105"/>
+      <LineObject Name="Line6" Top="26.46" Height="28.35" Border.Color="63, 87, 123" Diagonal="true"/>
+      <LineObject Name="Line7" Top="26.46" Width="15.12" Border.Color="63, 87, 123" Diagonal="true"/>
+      <LineObject Name="Line8" Left="716.31" Top="28.35" Height="28.35" Border.Color="63, 87, 123" Diagonal="true"/>
+    </DataBand>
+    <DataBand Name="Data2" Top="193.22" Width="718.2" Height="240.03" CanGrow="true" CanBreak="true">
+      <TableObject Name="Table6" Left="1.89" Top="18.9" Width="714.42" Height="200.34" Border.Lines="All" Border.Color="63, 87, 123">
+        <TableColumn Name="Column14" Width="238.14"/>
+        <TableColumn Name="Column15" Width="238.14"/>
+        <TableColumn Name="Column16" Width="238.14"/>
+        <TableRow Name="Row24" MinHeight="22.68" MaxHeight="22.68" Height="22.68">
+          <TableCell Name="Cell94" Border.Lines="Bottom" Border.Color="63, 87, 123" Fill.Color="48, 88, 131" Text="Summary of findings" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10.5pt, style=Bold" TextFill.Color="White" ColSpan="3"/>
+          <TableCell Name="Cell95" Font="Arial, 10pt"/>
+          <TableCell Name="Cell96" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row25" MinHeight="24.57" Height="24.57" AutoSize="true">
+          <TableCell Name="Cell99" Text="[genes.SubCategory1]" Padding="2, 4, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+          <TableCell Name="Cell100" Text="[genes.SubCategory2]" Padding="2, 4, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+          <TableCell Name="Cell101" Text="[genes.SubCategory3]" Padding="2, 4, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+        </TableRow>
+        <TableRow Name="Row26" MinHeight="56.7" Height="64.26" AutoSize="true">
+          <TableCell Name="Cell104" Font="Arial, 10pt">
+            <PictureObject Name="Picture17" Left="5.67" Top="13.23" Width="226.8" Height="56.7" DataColumn="genes.SubCategoryResultColor1"/>
+          </TableCell>
+          <TableCell Name="Cell105" Font="Arial, 10pt">
+            <PictureObject Name="Picture18" Left="5.67" Top="13.23" Width="226.8" Height="56.7" DataColumn="genes.SubCategoryResultColor2"/>
+          </TableCell>
+          <TableCell Name="Cell106" Font="Arial, 10pt">
+            <PictureObject Name="Picture19" Left="5.67" Top="13.23" Width="226.8" Height="56.7" DataColumn="genes.SubCategoryResultColor3"/>
+          </TableCell>
+        </TableRow>
+        <TableRow Name="Row27" MinHeight="24.57" Height="24.57" AutoSize="true">
+          <TableCell Name="Cell109" Text="[genes.SubCategory4]" Padding="2, 4, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+          <TableCell Name="Cell110" Text="[genes.SubCategory5]" Padding="2, 4, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+          <TableCell Name="Cell111" Text="[genes.SubCategory6]" Padding="2, 4, 2, 1" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+        </TableRow>
+        <TableRow Name="Row28" MinHeight="56.7" Height="64.26" AutoSize="true">
+          <TableCell Name="Cell114" Font="Arial, 10pt">
+            <PictureObject Name="Picture20" Left="5.67" Top="13.23" Width="226.8" Height="56.7" DataColumn="genes.SubCategoryResultColor4"/>
+          </TableCell>
+          <TableCell Name="Cell115" Font="Arial, 10pt">
+            <PictureObject Name="Picture21" Left="5.67" Top="13.23" Width="226.8" Height="56.7" DataColumn="genes.SubCategoryResultColor5"/>
+          </TableCell>
+          <TableCell Name="Cell116" Font="Arial, 10pt">
+            <PictureObject Name="Picture22" Left="5.67" Top="13.23" Width="226.8" Height="56.7" DataColumn="genes.SubCategoryResultColor6"/>
+          </TableCell>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text3791" Left="1.89" Top="224.91" Width="714.42" Height="15.12" Fill.Color="White" CanGrow="true" Text="gap" AutoWidth="true" Font="Bahnschrift, 12pt, style=Bold" TextFill.Color="White"/>
+      <TextObject Name="Text3790" Width="714.42" Height="15.12" Fill.Color="White" CanGrow="true" Text="gap" AutoWidth="true" Font="Bahnschrift, 12pt, style=Bold" TextFill.Color="White"/>
+      <ChildBand Name="Child1" Top="437.25" Width="718.2" Height="120.96">
+        <TableObject Name="Table1" Top="11.34" Width="716.31" Height="102.06" Border.Lines="Left, Right, Bottom" Border.LeftLine.Color="63, 87, 123" Border.RightLine.Color="63, 87, 123" Border.BottomLine.Color="63, 87, 123" GrowToBottom="true" RepeatHeaders="false" ManualBuildEvent="ManualBuildTable">
+          <TableColumn Name="Column11" Width="151.2"/>
+          <TableColumn Name="Column1" Width="92.61"/>
+          <TableColumn Name="Column2" Width="94.5"/>
+          <TableColumn Name="Column3" Width="122.85"/>
+          <TableColumn Name="Column4" Width="255.15"/>
+          <TableRow Name="Row23" MinHeight="22.68" MaxHeight="22.68" Height="22.68">
+            <TableCell Name="Cell89" Border.ShadowColor="Silver" Border.Lines="Top" Border.Color="63, 87, 123" Fill.Color="48, 88, 131" Text="Genotype Report" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10.5pt, style=Bold" TextFill.Color="White" ColSpan="5"/>
+            <TableCell Name="Cell90" Font="Arial, 10pt"/>
+            <TableCell Name="Cell91" Font="Arial, 10pt"/>
+            <TableCell Name="Cell92" Font="Arial, 10pt"/>
+            <TableCell Name="Cell93" Font="Arial, 10pt"/>
+          </TableRow>
+          <TableRow Name="Row1" Height="22.68">
+            <TableCell Name="Cell34" Border.ShadowColor="Silver" Border.Lines="Top" Border.Color="63, 87, 123" Fill.Color="228, 228, 236" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 9pt" TextFill.Color="78, 80, 86"/>
+            <TableCell Name="Cell1" Border.ShadowColor="Silver" Border.Lines="Top" Border.Color="63, 87, 123" Fill.Color="228, 228, 236" Text="Gene" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 9pt" TextFill.Color="78, 80, 86"/>
+            <TableCell Name="Cell2" Border.ShadowColor="Silver" Border.Lines="Top" Border.Color="63, 87, 123" Fill.Color="228, 228, 236" Text="Snp" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 9pt" TextFill.Color="78, 80, 86"/>
+            <TableCell Name="Cell3" Border.ShadowColor="Silver" Border.Lines="Top" Border.Color="63, 87, 123" Fill.Color="228, 228, 236" Text="Your Genotype" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 9pt" TextFill.Color="78, 80, 86"/>
+            <TableCell Name="Cell4" Border.ShadowColor="Silver" Border.Lines="Top" Border.Color="63, 87, 123" Fill.Color="228, 228, 236" Text="Your Results" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 9pt" TextFill.Color="78, 80, 86"/>
+          </TableRow>
+          <TableRow Name="Row2" MinHeight="56.7" Height="56.7" AutoSize="true">
+            <TableCell Name="Cell35" Border.Lines="Bottom" Border.Color="Silver" Text="[genotype.SubCategory]" Padding="5, 0, 5, 0" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+            <TableCell Name="Cell5" Border.Lines="Bottom" Border.Color="Silver" Text="[genotype.Gene]" Padding="5, 0, 5, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="94, 94, 96"/>
+            <TableCell Name="Cell6" Border.Lines="Bottom" Border.Color="Silver" Text="[genotype.Snp]" Padding="5, 0, 5, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt" TextFill.Color="121, 122, 123"/>
+            <TableCell Name="Cell7" Border.Lines="Bottom" Border.Color="Silver" Text="[genotype.Genotype]" Padding="5, 0, 5, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt, style=Bold" TextFill.Color="62, 62, 63"/>
+            <TableCell Name="Cell8" Border.Lines="Bottom" Border.Color="Silver" Text="[genotype.Results]" Padding="5, 0, 5, 0" VertAlign="Center" Font="Bahnschrift, 10pt" TextFill.Color="121, 122, 123"/>
+          </TableRow>
+        </TableObject>
+      </ChildBand>
+    </DataBand>
+  </ReportPage>
+  <ReportPage Name="Page2" BottomMargin="0" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader2" Width="718.2" Height="47.25">
+      <TableObject Name="Table3" Top="5.67" Width="708.75" Height="37.8">
+        <TableColumn Name="Column7" Width="170.1" AutoSize="true"/>
+        <TableColumn Name="Column8" Width="538.65"/>
+        <TableRow Name="Row6">
+          <TableCell Name="Cell20" Text="[result.Category]" Padding="2, 1, 4, 1" VertAlign="Center" WordWrap="false" Font="Bahnschrift, 14pt, style=Bold" RowSpan="2"/>
+          <TableCell Name="Cell21" Border.Lines="Left, Bottom" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row7">
+          <TableCell Name="Cell22" WordWrap="false" Font="Arial, 10pt"/>
+          <TableCell Name="Cell23" Border.Lines="Left" Font="Arial, 10pt"/>
+        </TableRow>
+      </TableObject>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="51.25" Width="718.2" Height="28.35">
+      <TextObject Name="Text3783" Left="9.45" Top="5.67" Width="699.3" Height="18.9" CanGrow="true" Text="This report looked at variants in the following genes and associated studies:" Padding="2, -3, 2, 0" AutoWidth="true" VertAlign="Center" WordWrap="false" Font="Bahnschrift, 11pt, style=Bold" TextFill.Color="94, 94, 96" LineHeight="15"/>
+    </DataBand>
+    <DataBand Name="Data4" Top="83.6" Width="718.2" Height="360.99" CanGrow="true" CanBreak="true" DataSource="result">
+      <TableObject Name="Table5" Left="9.83" Top="9.45" Width="699.3" Height="325.08" Border.ShadowColor="68, 64, 65" Border.Lines="Left, Right, Bottom" Border.Color="68, 64, 65" ShiftMode="WhenOverlapped" CanBreak="false" RepeatHeaders="false" Layout="Wrapped">
+        <TableColumn Name="Column12" MinWidth="113.4" MaxWidth="113.4" Width="113.4" AutoSize="true"/>
+        <TableColumn Name="Column13" MinWidth="585.9" MaxWidth="585.9" Width="585.9" AutoSize="true"/>
+        <TableRow Name="Row18" MinHeight="22.68" MaxHeight="22.68" Height="22.68">
+          <TableCell Name="Cell79" Border.Lines="Left, Top" Border.LeftLine.Color="68, 64, 65" Border.TopLine.Color="68, 64, 65" Border.RightLine.Color="68, 64, 65" Fill.Color="48, 88, 131" Text="[result.SubCategory]" HorzAlign="Center" VertAlign="Center" Font="Candara, 11pt, style=Bold" TextFill.Color="White" ColSpan="2"/>
+          <TableCell Name="Cell80" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row17" MinHeight="26.46" MaxHeight="26.46" Height="26.46">
+          <TableCell Name="Cell77" Border.Lines="Left, Top" Border.LeftLine.Color="68, 64, 65" Border.TopLine.Color="68, 64, 65" Border.RightLine.Color="68, 64, 65" Fill.Color="228, 228, 236" Text="Your Genotype" Padding="2, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Candara, 10pt, style=Bold" TextFill.Color="78, 80, 86"/>
+          <TableCell Name="Cell78" Border.Lines="Top" Border.LeftLine.Color="68, 64, 65" Border.TopLine.Color="68, 64, 65" Border.RightLine.Color="68, 64, 65" Fill.Color="228, 228, 236" Text="Your Results" Padding="15, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Candara, 10pt, style=Bold" TextFill.Color="78, 80, 86"/>
+        </TableRow>
+        <TableRow Name="Row14" MinHeight="22.68" MaxHeight="1000.19" Height="22.68" AutoSize="true">
+          <TableCell Name="Cell27" Text="[result.Genotype]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Candara, 10pt, style=Bold" TextFill.Color="212, 35, 41" LineHeight="18"/>
+          <TableCell Name="Cell74" Text="[result.Results]" Padding="0, 0, 5, 0" VertAlign="Center" Font="Bahnschrift, 10pt" TextFill.Color="121, 122, 123" LineHeight="18" RowSpan="3"/>
+        </TableRow>
+        <TableRow Name="Row15" MinHeight="22.68" Height="22.68" AutoSize="true">
+          <TableCell Name="Cell75" Text="[result.Snp]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Bahnschrift, 10pt" TextFill.Color="121, 122, 123" LineHeight="18"/>
+          <TableCell Name="Cell76" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row16" MinHeight="22.68" Height="22.68" AutoSize="true">
+          <TableCell Name="Cell54" Text="[result.Gene]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="MS Reference Sans Serif, 9.8pt, style=Bold" TextFill.Color="94, 94, 96" LineHeight="18"/>
+          <TableCell Name="Cell55" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row21" MinHeight="7.56" Height="7.56">
+          <TableCell Name="Cell85" Text="gap" Font="Arial, 10pt" TextFill.Color="Transparent" ColSpan="2"/>
+          <TableCell Name="Cell86" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row11" MinHeight="64.26" Height="64.26" AutoSize="true">
+          <TableCell Name="Cell60" Font="Arial, 10pt">
+            <PictureObject Name="Picture15" Left="56.7" Width="45.36" Height="52.92" ImageFormat="Png" Image="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"/>
+          </TableCell>
+          <TableCell Name="Cell61" Text="[result.StudyName]" Padding="0, 0, 5, 0" Font="Candara, 10pt, style=Bold" TextFill.Color="94, 94, 96" LineHeight="18"/>
+        </TableRow>
+        <TableRow Name="Row19" MinHeight="7.56" MaxHeight="7.56" Height="7.56">
+          <TableCell Name="Cell81" Text="gap" Font="Arial, 10pt" TextFill.Color="Transparent" ColSpan="2"/>
+          <TableCell Name="Cell82" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row12" MinHeight="56.7" Height="56.7" AutoSize="true">
+          <TableCell Name="Cell66" Text="[result.StudyDescription]" Padding="5, 0, 5, 0" HorzAlign="Justify" Font="Bahnschrift, 10pt" TextFill.Color="121, 122, 123" LineHeight="18" ColSpan="2"/>
+          <TableCell Name="Cell67" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row20" MinHeight="7.56" MaxHeight="7.56" Height="7.56">
+          <TableCell Name="Cell83" Text="gap" Font="Arial, 10pt" TextFill.Color="Transparent" ColSpan="2"/>
+          <TableCell Name="Cell84" Font="Arial, 10pt" TextFill.Color="Transparent"/>
+        </TableRow>
+        <TableRow Name="Row13" MinHeight="56.7" Height="56.7" AutoSize="true">
+          <TableCell Name="Cell72" Padding="2, 5, 2, 5" Font="Arial, 10pt">
+            <PictureObject Name="Picture16" Left="56.7" Width="45.36" Height="47.25" ImageFormat="Png" Image="iVBORw0KGgoAAAANSUhEUgAAADIAAAAoCAYAAAC8cqlMAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOvAAADrwBlbxySQAABJtJREFUaEPtWG1MlVUcJ1tpNvuQukq/tFqz0s2pn+pLNuc0V6mVL5C2fKutLNT57paYilPkxXxPQRBUQEAQdZpchJvcQN65XgHh6hVEUDQsMV0J/87v7DwP57nP89xm8ACt+9t+G5xz7v/lOef/ck6AH3744YcfvnC23JO5L6uc9vxURsmOKrJfqg8VU70f3yWdpzcWRVPAtDBD9guKoPHrkykpr5LET3oXlh48R0/NDDc03oyvB0fTyWJ3tRDR8xgWvN/Q0CdnbKUXF+ykkUtj6aUFuwzXgMvjc3p2d4rdTWMHz9uhMWrA7CgKPmCjvKrr1NbWTjIu1jVT5IkifrTk34Afb03vOWeGfrlbY8yMyOPcmIKaG0HNv92nm3dbdcx2XovFmtT8aho4Z7vm99/G2LrfmXdDEjVGhCTnqUbst5VTkbuRTpde0XFFQq7G2FHL4jRykN3ElPVIK7isUb4wOkuj/OfK+pC9Z8uosaWVThTXqjxeWEOrDtl1hr781V5V1pAvWCx1F95cHKMq5n8bAPUjLucid+b2738QO260JC7bcC0cf0LIA384VWy9M+zITFAUgrmuunAxpQPiYM0RO3eC7YhHDBuCB7uQ+daaBOsdgWGKwucRrD5wvvL66nLPLdp2soi2ZBT4XMvriZDLaTXGrUtSlflKmQl2F0UxB1paH9CjtjYe/N6B7o1nZ0WpsnkcWolXF/6oKkMPJYY1KLnS9Pb6FAfBGYVnyq5STeOvhBZGLNMBlV6RjXojhq0BCp6ijKVThxjWICa7ghJZL4XYkAlHNqebH7F31h5RZVte7dFyKMqQlcSwBrHnnJR+oYaqGu5o2HDnHoWm/WJq4PubUlXZ2FExbA3k7TcLYFd984DVh+2EnYGzIIohAn9Dqrkjcruz83SJtY7MjMxUlX0SnmGqjBW/25uO5VMTqyPt7e1oTWjlIfNgR1wpcsEcV912MWUNeIALZf0/jfT51WAcdgZtR2Ft4wdi2BB8d4Vcnr26A32md3y5sIwLpkqRrdgxowzWmmA3Sq/eHCOmdBgudQsfhXVDJ8zO+TA54J/7bJuhUtQQBDwylbuphRzVDbSItfeIH7FExeJY1roIeSDLcEFiqmux+0wp/0rTWEzIu6FwxJIDGmeyKjyp8bku3raz6q6S3dl1aTWzqPaG3GdN3Hi063cDjwfylitEdpF7I3D0ctaOC6BhRCVHLfHmMskRZDP5eszvJ12NyZvTNIYqnLCh44tN2XJMM4fg38V2j8UC3b3/kB7++ZeOPDsxyNkPxE6fKnE7ueCuALb+6UDjR4RnmKGIEbGUg6dgr3XIOpNCUygisxDZih8rdML4f+zaRN3xhFykayGyc4i2VdAL8zuC2JtTw9jXN8H3Rx2P/YKiEJeq/MsNnwtR/x5otcesOGioBEQg25yew2K5KZzXbg35kB1HOXB9EdlOvh53CoFR2nMqE4GH8y6WPhbQJ723MYUGzd2hOtY3MIKQOKATx0ws7Txe+bqjHZeJtyg854hl/wEYOIGMZFSwejXkC9Jr3+z7xzt1rwaebPAGJf71w4//NwIC/gYFvcSo6L7dOwAAAABJRU5ErkJggg=="/>
+          </TableCell>
+          <TableCell Name="Cell73" Hyperlink.OpenLinkInNewTab="true" Padding="0, 0, 5, 0" VertAlign="Center" Font="Bahnschrift, 10pt, style=Underline" TextFill.Color="95, 115, 148" LineHeight="18">
+            <TextObject Name="Text3792" Width="585.9" Height="56.7" Cursor="Hand" Hyperlink.Expression="[result.ReferenceLink]" Hyperlink.Value="[result.ReferenceLink]" Hyperlink.OpenLinkInNewTab="true" CanGrow="true" Text="[result.ReferenceLink]" Padding="2, -3, 2, 0" VertAlign="Center" Font="Bahnschrift, 11pt, style=Bold, Underline" TextFill.Color="Blue" LineHeight="15"/>
+          </TableCell>
+        </TableRow>
+        <TableRow Name="Row22" MinHeight="7.56" Height="7.56">
+          <TableCell Name="Cell87" Text="gap" Font="Arial, 10pt" TextFill.Color="Transparent" ColSpan="2"/>
+          <TableCell Name="Cell88" Font="Arial, 10pt" TextFill.Color="Transparent"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text3789" Left="9.45" Top="340.2" Width="699.3" Height="18.9" CanGrow="true" Text="[result.SubCategory]" Padding="2, -3, 2, 0" AutoWidth="true" VertAlign="Center" WordWrap="false" Font="Bahnschrift, 11pt, style=Bold" TextFill.Color="Transparent" LineHeight="15"/>
+    </DataBand>
+  </ReportPage>
+</Report>
