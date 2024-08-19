@@ -2,8 +2,11 @@
 using Azure.Storage.Blobs.Models;
 using ETA_API.Models.Referance;
 using ETA_API.Models.StoreProcModelDto;
+using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
 using Hangfire.MemoryStorage.Database;
 using MailKit.Security;
+using Microsoft.Extensions.Options;
 using Microsoft.Graph;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
@@ -11,8 +14,10 @@ using Newtonsoft.Json;
 using Npgsql;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -24,14 +29,14 @@ namespace ETA_API.Helpers
         private readonly IConfiguration _configuration;
         private readonly string _azureConnectionString;
         private readonly string _azureContainer;
+        private readonly GoogleCredential _googleCredential;
+        private readonly GCSConfigOptions _options;
         private readonly string _azureContainerFolder;
 
         public StorageService(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _azureConnectionString = _configuration["AzureBlob:blobConnecion"];
-            _azureContainer = _configuration["AzureBlob:container"];
-            _azureContainerFolder = _configuration["AzureBlob:containerFolder"];
+            _googleCredential = GoogleCredential.FromFile(_configuration["GCPStorageAuthFile"]);
         }
        
         public async Task<string> Post(string uri, Dictionary<string, string> parameters)
@@ -61,17 +66,16 @@ namespace ETA_API.Helpers
         {
             try
             {
-                var cloudBlobContainer = GetContainerAsync(_azureContainer).Result;
+                var storage = StorageClient.Create(_googleCredential);
+                string bucketName = "eta-storage";
+
                 string base64 = source.Substring(source.IndexOf(',') + 1);
 
                 string reportUuid = uuid == null ? Guid.NewGuid().ToString() : uuid;
-
-                var link = $"{_azureContainerFolder + "/" + reportUuid + extension}";
                 byte[] data = Convert.FromBase64String(base64);
-                BlobClient destBlob = cloudBlobContainer.GetBlobClient(link);
-                destBlob.UploadAsync(new MemoryStream(data), new BlobHttpHeaders { ContentType = fileType }).GetAwaiter().GetResult();
-                downloadURL = destBlob.Uri.AbsoluteUri;
-                path = link;
+                var uploadedFile = storage.UploadObject(bucketName, reportUuid, fileType, new MemoryStream(data));
+                downloadURL = $"https://storage.cloud.google.com/{bucketName}/{reportUuid}";
+                path = "";
             }
             catch (Exception ex)
             {
