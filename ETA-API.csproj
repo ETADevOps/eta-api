@@ -12,6 +12,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Update="app.yaml">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		 </None>
 		<Compile Remove="Models\StoreProcModelDto\UsersDto.cs" />
 	</ItemGroup>
 
