@@ -283,7 +283,7 @@ namespace ETA.API
 
             var logger = app.ApplicationServices.GetService<ILoggerFactory>().CreateLogger("Startup");
 
-            app.UseCors("CorsPolicy");
+            app.UseCors(e => e.AllowAnyOrigin());
 
             if (env.IsDevelopment())
             {
